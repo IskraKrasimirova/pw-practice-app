@@ -34,7 +34,7 @@ test('Locator syntax rules', async ({ page }) => {
 
     // // by Tag Name, Class and Attribute
     // await page.locator('input.input-full-width[placeholder="Email"]').click(); // can be same for multiple elements but more specific 
-    
+
     // // by XPath
     // await page.locator('//*[@id="inputEmail1"]').click(); // can be same for multiple elements but more specific
 
@@ -50,7 +50,7 @@ test('Locator syntax rules', async ({ page }) => {
 
 test('User facing locators', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Email' }).first().click();
-    await page.getByRole('button', {name: 'Sign in'}).first().click();
+    await page.getByRole('button', { name: 'Sign in' }).first().click();
 
     await page.getByLabel('Email').first().click();
     await page.getByPlaceholder('Jane Doe').click();
@@ -58,3 +58,17 @@ test('User facing locators', async ({ page }) => {
     await page.getByTitle('IoT Dashboard').click();
     await page.getByTestId('SignIn').click();
 });
+
+test('locating child elements', async ({ page }) => {
+    // locating child element using ' ' (space)
+    await page.locator('nb-card nb-radio :text-is("Option 1")').click();
+
+    // chain of locators
+    await page.locator('nb-card').locator('nb-radio').locator(':text-is("Option 2")').click();
+
+    // locating child element using combination of general locator and user facing locator
+    await page.locator('nb-card').getByRole('button', { name: 'Sign in' }).first().click();
+
+    // locating child element using nth -> 4th element from the list
+    await page.locator('nb-card').nth(3).getByRole('button').click();
+});           
