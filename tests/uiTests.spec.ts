@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
     // runs before each test and navigates to the base URL
@@ -71,16 +71,31 @@ test('locating child elements', async ({ page }) => {
 
     // locating child element using nth -> 4th element from the list
     await page.locator('nb-card').nth(3).getByRole('button').click();
-});         
+});
 
 test('locating parent elements', async ({ page }) => {
-    await page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', { name: 'Email' }).click();
-    await page.locator('nb-card', {has: page.locator('#inputEmail1')}).getByRole('textbox', { name: 'Email' }).click();
+    await page.locator('nb-card', { hasText: "Using the Grid" }).getByRole('textbox', { name: 'Email' }).click();
+    await page.locator('nb-card', { has: page.locator('#inputEmail1') }).getByRole('textbox', { name: 'Email' }).click();
 
-    await page.locator('nb-card').filter({hasText: 'Basic form'}).getByRole('textbox', { name: 'Email' }).click();
-    await page.locator('nb-card').filter({has: page.locator('.status-danger')}).getByRole('textbox', { name: 'Password' }).click();
+    await page.locator('nb-card').filter({ hasText: 'Basic form' }).getByRole('textbox', { name: 'Email' }).click();
+    await page.locator('nb-card').filter({ has: page.locator('.status-danger') }).getByRole('textbox', { name: 'Password' }).click();
 
-    await page.locator('nb-card').filter({has: page.locator('nb-checkbox')}).filter({hasText: 'Sign in'}).getByRole('textbox', { name: 'Email' }).click();
+    await page.locator('nb-card').filter({ has: page.locator('nb-checkbox') }).filter({ hasText: 'Sign in' }).getByRole('textbox', { name: 'Email' }).click();
 
     await page.locator(':text-is("Using the Grid")').locator('..').getByRole('textbox', { name: 'Email' }).click();
+});
+
+test('Reusing the locators', async ({ page }) => {
+    const basicForm = page.locator('nb-card').filter({ hasText: 'Basic form' });
+    const emailField = basicForm.getByRole('textbox', { name: 'Email' });
+    const passwordField = basicForm.getByRole('textbox', { name: 'Password' });
+
+    await emailField.fill("user@user.com");
+    await passwordField.fill("Secret123");
+    await basicForm.locator('nb-checkbox').click();
+    await basicForm.getByRole('button').click();
+
+    await expect(emailField).toHaveValue('user@user.com');
+    await expect(passwordField).toHaveValue('Secret123');
+    await expect(basicForm.locator('nb-checkbox').locator('[class="custom-checkbox checked"]')).toBeChecked();
 });
