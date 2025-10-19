@@ -93,8 +93,20 @@ test('lists and dropdowns', async ({ page }) => {
         await optionsList.filter({ hasText: color }).click();
         await expect(header).toHaveCSS('background-color', colors[color]);
 
-        if (color !== 'Corporate'){
+        if (color !== 'Corporate') {
             await dropdownMenu.click();
         }
     }
+});
+
+test('tooltips', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click();
+    await page.getByText('Tooltip').click();
+
+    const tooltipCard = page.locator('nb-card', { hasText: 'Tooltip Placements' });
+    await tooltipCard.getByRole('button', { name: 'Top' }).hover();
+    // page.getByRole('tooltip'); // when the tooltip has role="tooltip"
+    const tooltip = await page.locator('nb-tooltip').textContent();
+
+    expect(tooltip).toEqual('This is a tooltip');
 });
