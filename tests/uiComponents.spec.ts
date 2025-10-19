@@ -110,3 +110,19 @@ test('tooltips', async ({ page }) => {
 
     expect(tooltip).toEqual('This is a tooltip');
 });
+
+test('dialog boxes', async ({ page }) => {
+    await page.getByText('Tables & Data').click();
+    await page.getByText('Smart Table').click();
+
+    // to accept the confirm box
+    page.on('dialog', dialog => {
+        expect(dialog.message()).toEqual('Are you sure you want to delete?');
+        dialog.accept();
+    });
+    // to cancel the confirm box; by default, the dialog is dismissed
+    // page.on('dialog', dialog => dialog.dismiss()); 
+
+    await page.getByRole('table').locator('tr', { hasText: 'mdo@gmail.com' }).locator('.nb-trash').click();
+    await expect(page.locator('table tr').first()).not.toHaveText('mdo@gmail.com');
+});
