@@ -46,3 +46,19 @@ test.describe('Form Layouts page', () => {
         await expect(radioButton1).not.toBeChecked();
     });
 });
+
+test('checkboxes', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click();
+    await page.getByText('Toastr').click();
+
+    await page.getByRole('checkbox', { name: 'Hide on click' }).uncheck({ force: true });
+    await page.getByRole('checkbox', { name: 'Show toast with icon' }).check({ force: true });
+
+    const allCheckboxes = page.getByRole('checkbox');
+
+    for (const box of await allCheckboxes.all()) {
+        await box.check({ force: true });
+        await expect(box).toBeChecked();
+        expect(await box.isChecked()).toBeTruthy();
+    }
+});
