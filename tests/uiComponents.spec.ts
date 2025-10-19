@@ -111,7 +111,7 @@ test('tooltips', async ({ page }) => {
     expect(tooltip).toEqual('This is a tooltip');
 });
 
-test('dialog boxes', async ({ page }) => {
+test('browser dialog boxes', async ({ page }) => {
     await page.getByText('Tables & Data').click();
     await page.getByText('Smart Table').click();
 
@@ -125,4 +125,25 @@ test('dialog boxes', async ({ page }) => {
 
     await page.getByRole('table').locator('tr', { hasText: 'mdo@gmail.com' }).locator('.nb-trash').click();
     await expect(page.locator('table tr').first()).not.toHaveText('mdo@gmail.com');
+});
+
+test('regular dialog boxes', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click();
+    await page.getByText('Dialog').click();
+
+    await page.getByRole('button', { name: 'Open Dialog with component' }).click();
+    const dialog = page.locator('nb-dialog-container');
+    await expect(dialog).toHaveCount(1);
+    await expect(dialog).toBeVisible();
+
+    const dialogTitle = await dialog.locator('nb-card-header').textContent();
+    const dialogText = await dialog.locator('nb-card-body').textContent();
+
+    expect(dialogTitle).toEqual('This is a title passed to the dialog component');
+    expect(dialogText).toContain('Lorem ipsum dolor sit amet');
+    await expect(dialog.locator('nb-card-body')).not.toBeEmpty();
+
+    await dialog.getByRole('button', { name: 'Dismiss Dialog' }).click();
+    await expect(dialog).toHaveCount(0);
+    await expect(dialog).not.toBeVisible();
 });
