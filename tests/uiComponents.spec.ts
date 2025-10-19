@@ -75,11 +75,26 @@ test('lists and dropdowns', async ({ page }) => {
 
     await expect(optionsList).toHaveText(["Light", "Dark", "Cosmic", "Corporate"]);
 
-    // await optionsList.nth(2).click();
-    // await expect(dropdownMenu).toHaveText('Cosmic');
-
     await optionsList.filter({ hasText: 'Cosmic' }).click();
     const header = page.locator('nb-layout-header');
-    
+
     await expect(header).toHaveCSS('background-color', 'rgb(50, 50, 89)');
+
+    const colors = {
+        "Light": "rgb(255, 255, 255)",
+        "Dark": "rgb(34, 43, 69)",
+        "Cosmic": "rgb(50, 50, 89)",
+        "Corporate": "rgb(255, 255, 255)"
+    };
+
+    await dropdownMenu.click();
+
+    for (const color in colors) {
+        await optionsList.filter({ hasText: color }).click();
+        await expect(header).toHaveCSS('background-color', colors[color]);
+
+        if (color !== 'Corporate'){
+            await dropdownMenu.click();
+        }
+    }
 });
