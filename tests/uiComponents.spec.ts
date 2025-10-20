@@ -147,3 +147,46 @@ test('regular dialog boxes', async ({ page }) => {
     await expect(dialog).toHaveCount(0);
     await expect(dialog).not.toBeVisible();
 });
+
+test('web table', async ({ page }) => {
+    await page.getByText('Tables & Data').click();
+    await page.getByText('Smart Table').click();
+
+    // 1. get the row by any text in this row
+    const tableRow = page.getByRole('row', { name: "twitter@outlook.com" });
+    await tableRow.locator('.nb-edit').click();
+    await page.locator('input-editor').getByPlaceholder('Age').clear();
+    await page.locator('input-editor').getByPlaceholder('Age').fill('35');
+    await page.locator('.nb-checkmark').click();
+    await expect(tableRow).toHaveText(/35/);
+
+    // 2. get the row based on the value in specific column
+    await page.locator('.ng2-smart-pagination-nav').getByText('2').click();
+    const targetRowById = page.getByRole('row', { name: "11" }).filter({ has: page.locator('td').nth(1).getByText('11') });
+    await targetRowById.locator('.nb-edit').click();
+    await page.locator('input-editor').getByPlaceholder('E-mail').clear();
+    await page.locator('input-editor').getByPlaceholder('mail').fill('user@user.com');
+    await page.locator('.nb-checkmark').click();
+    await expect(targetRowById.locator('td').nth(5)).toHaveText('user@user.com');
+
+    // 3. test filter functionality
+    const ages = ["20", "30", "40", "200"];
+
+    for (const age of ages) {
+        await page.locator('input-filter').getByPlaceholder('Age').clear();
+        await page.locator('input-filter').getByPlaceholder('Age').fill(age);
+        await page.waitForTimeout(500);
+        const ageRows = page.locator('tbody tr');
+
+        for (let row of await ageRows.all()) {
+            const cellValue = await row.locator('td').last().textContent();
+
+            if (age == "200") {
+                expect(await page.getByRole('table').textContent()).toContain(" No data found ");
+            }
+            else {
+                expect(cellValue).toEqual(age);
+            }
+        }
+    }
+});
