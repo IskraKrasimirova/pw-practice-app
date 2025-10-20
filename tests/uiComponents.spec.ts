@@ -190,3 +190,32 @@ test('web table', async ({ page }) => {
         }
     }
 });
+
+test('datepicker', async ({ page }) => {
+    await page.getByText('Forms').click();
+    await page.getByText('Datepicker').click();
+
+    const datepickerInputField = page.getByPlaceholder('Form Picker');
+    await datepickerInputField.click();
+
+    let date = new Date();
+    date.setDate(date.getDate() + 7); // set date 7 days in the future
+
+    const expectedDate = date.getDate().toString();
+    const expectedMonthShort = date.toLocaleString('default', { month: 'short' });
+    const expectedMonthLong = date.toLocaleString('default', { month: 'long' });
+    const expectedYear = date.getFullYear();
+    const expectedDateFormatted = `${expectedMonthShort} ${expectedDate}, ${expectedYear}`;
+
+    let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+    const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`;
+
+    while (calendarMonthAndYear?.trim() !== expectedMonthAndYear) {
+        await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click();
+        calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+    }
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, { exact: true }).click();
+
+    await expect(datepickerInputField).toHaveValue(expectedDateFormatted);
+});
