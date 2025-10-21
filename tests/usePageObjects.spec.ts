@@ -9,4 +9,11 @@ test('navigate to Form Layouts page', async ({ page }) => {
     const navigateTo = new NavigationPage(page);
     await navigateTo.formLayoutsPage();
     await expect(page).toHaveURL('http://localhost:4200/pages/forms/layouts');
+
+    await navigateTo.datepickerPage();
+    await expect(page).toHaveURL('http://localhost:4200/pages/forms/datepicker');
+
+    await navigateTo.toasterPage();
+    await navigateTo.smartTablePage();
+    await navigateTo.tooltipPage();
 });
