@@ -15,6 +15,9 @@ import { EchartsAreaStackComponent } from './echarts/echarts-area-stack.componen
 import { EchartsBarAnimationComponent } from './echarts/echarts-bar-animation.component';
 import { EchartsRadarComponent } from './echarts/echarts-radar.component';
 
+import { RouterModule } from '@angular/router';
+import { NbButtonModule } from '@nebular/theme';
+
 const components = [
   EchartsLineComponent,
   EchartsPieComponent,
@@ -27,6 +30,8 @@ const components = [
 
 @NgModule({
   imports: [
+    RouterModule,
+    NbButtonModule,
     ThemeModule,
     ChartsRoutingModule,
     NgxEchartsModule,
@@ -36,4 +41,4 @@ const components = [
   ],
   declarations: [...routedComponents, ...components],
 })
-export class ChartsModule {}
+export class ChartsModule { }
