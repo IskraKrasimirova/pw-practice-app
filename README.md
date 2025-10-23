@@ -17,13 +17,13 @@ This project is designed for:
 
 ## ⚙️ Setup Instructions
 
-### Windows
+### 🟩  Windows
 
 ```powershell
 .\setup.ps1
 ```
 
-### 🟩 Linux/macOS Setup
+### 🟩 Linux/macOS
 
 ```bash
 bash setup.sh
@@ -36,11 +36,14 @@ This scripts will:
 - 🔗 **Copy missing Babel helper file** (`regeneratorValues.js`) to nested path
 - 🚀 **Start the Angular project** (`npm start`)
 
-🧩 Known Issues & Fixes
-❗ Module not found: regeneratorValues.js
+## 🧩 Known Issues & Fixes
+
+**❗ Module not found: regeneratorRuntime.js**
+
 Some libraries (e.g. d3-array) expect a helper file in a nested Babel runtime path. This project includes a workaround that copies the file manually during setup.
 
-❗ Peer dependency conflicts
+**❗ Peer dependency conflicts**
+
 Use npm install --legacy-peer-deps to avoid installation errors caused by incompatible peer versions.
 
 ## 🧪 Playwright Tests
@@ -72,8 +75,9 @@ To open Playwright UI:
 ```
 npx playwright test --ui
 ```
-📦 Dependencies
-**Angular 14
-**Akveo ngx-admin (stripped version)
-**Playwright
-**d3-array, ngx-echarts, ng2-smart-table (with manual fixes)
+## 📦 Dependencies
+
+- Angular 14
+- Akveo ngx-admin (stripped version)
+- Playwright
+- d3-array, ngx-echarts, ng2-smart-table (with manual fixes)
