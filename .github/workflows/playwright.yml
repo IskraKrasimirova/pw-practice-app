@@ -33,4 +33,4 @@ jobs:
 
     - name: 🧪 Run Playwright tests
       shell: pwsh
-      run: npx playwright test --workers=4 --headed=false
+      run: npx playwright test
