@@ -8,14 +8,14 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: windows-latest
 
     steps:
     - name: ⬇️ Checkout repository
       uses: actions/checkout@v4
 
-    - name: 🧹 Run setup script (PowerShell)
+    - name: 🧹 Run setup script
       shell: pwsh
       run: |
         .\setup.ps1

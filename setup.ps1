@@ -1,6 +1,18 @@
 Write-Host "🧹 Cleaning up old environment..."
-Remove-Item -Recurse -Force node_modules
-Remove-Item -Force package-lock.json
+
+if (Test-Path "node_modules") {
+    Remove-Item -Recurse -Force "node_modules"
+    Write-Host "✅ Removed node_modules"
+} else {
+    Write-Host "ℹ️ node_modules not found, skipping removal"
+}
+
+if (Test-Path "package-lock.json") {
+    Remove-Item -Force "package-lock.json"
+    Write-Host "✅ Removed package-lock.json"
+} else {
+    Write-Host "ℹ️ package-lock.json not found, skipping removal"
+}
 
 Write-Host "📦 Installing dependencies with legacy peer deps..."
 npm install --legacy-peer-deps
