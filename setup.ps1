@@ -27,5 +27,9 @@ if (Test-Path $source) {
     Write-Host "⚠️ regeneratorValues.js not found at expected source path."
 }
 
-Write-Host "🚀 Starting Angular project..."
-npm start
+if ($env:CI -ne "true") {
+    Write-Host "🚀 Starting Angular project locally..."
+    npm start
+} else {
+    Write-Host "🏃 Skipping npm start in CI environment"
+}
