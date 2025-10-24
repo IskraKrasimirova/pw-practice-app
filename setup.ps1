@@ -15,7 +15,7 @@ if (Test-Path "package-lock.json") {
 }
 
 Write-Host "📦 Installing dependencies with legacy peer deps..."
-npm install --legacy-peer-deps
+npm install --legacy-peer-deps wait-on
 
 $source = "node_modules/@babel/runtime/helpers/esm/regeneratorValues.js"
 $target = "node_modules/@angular-devkit/build-angular/node_modules/@babel/runtime/helpers/esm/regeneratorValues.js"
