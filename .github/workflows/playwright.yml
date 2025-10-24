@@ -17,15 +17,16 @@ jobs:
 
     - name: 🧹 Run setup script
       shell: pwsh
-      run: |
-        .\setup.ps1
+      run: .\setup.ps1
+
+    - name: 📥 Install Playwright browsers
+      run: npx playwright install --with-deps
 
     - name: 🧪 Run Playwright tests
       shell: pwsh
-      run: |
-        npx playwright test
+      run: npx playwright test
 
-    - name: 📦 Upload Playwright report
+    - name: 📦 Upload Playwright report (optional)
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
