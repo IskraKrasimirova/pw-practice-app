@@ -31,13 +31,6 @@ jobs:
     - name: 📥 Install Playwright browsers
       run: npx playwright install --with-deps
 
-    - name: 🚀 Start Angular dev server and wait
-      shell: pwsh
-      run: |
-        $angular = Start-Process -FilePath "npm" -ArgumentList "start" -PassThru
-        Start-Sleep -Seconds 5
-        npx wait-on http://localhost:4200 --timeout=120000
-
     - name: 🧪 Run Playwright tests
       shell: pwsh
       run: npx playwright test --workers=4 --headed=false

@@ -16,7 +16,6 @@ if (Test-Path "package-lock.json") {
 
 Write-Host "📦 Installing dependencies with legacy peer deps..."
 npm install --legacy-peer-deps
-npm install wait-on --save-dev --legacy-peer-deps
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ npm install failed"
@@ -39,3 +38,5 @@ if ($env:CI -ne "true") {
 } else {
     Write-Host "🏃 Skipping npm start in CI environment"
 }
+
+Write-Host "✅ Setup complete"
