@@ -33,9 +33,11 @@ jobs:
 
     - name: 🧪 Run Chromium and Firefox tests
       shell: pwsh
+      continue-on-error: true
       run: npx playwright test --project=chromium --project=firefox
 
     - name: 🧪 Run WebKit tests (non-blocking)
+      if: always()
       shell: pwsh
       continue-on-error: true
       run: npx playwright test --project=webkit

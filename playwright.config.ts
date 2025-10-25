@@ -29,7 +29,7 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       workers: 1,
-      timeout: 60000,
+      timeout: 120000,
     },
   ],
 

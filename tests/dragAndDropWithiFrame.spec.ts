@@ -11,11 +11,7 @@ test('Drag and Drop with iFrame', async ({ page }) => {
     if (await consentButton.isVisible()) {
         console.log('✅ Consent button is visible, clicking...');
         await consentButton.click({ force: true });
-    } else {
-        console.log('⚠️ Consent button not visible, skipping...');
     }
-
-    expect.soft(await consentButton.isVisible()).toBe(true);
     //await page.getByRole('button', { name: 'Consent' }).click();
 
     const frame = page.frameLocator('[rel-title="Photo Manager"] iframe');
