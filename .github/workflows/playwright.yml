@@ -37,6 +37,7 @@ jobs:
       run: npx playwright test --project=chromium --project=firefox
 
     - name: 🧪 Run WebKit tests (non-blocking)
+      timeout-minutes: 10
       if: always()
       shell: pwsh
       continue-on-error: true
