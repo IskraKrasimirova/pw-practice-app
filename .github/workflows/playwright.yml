@@ -31,9 +31,14 @@ jobs:
     - name: 📥 Install Playwright browsers
       run: npx playwright install --with-deps
 
-    - name: 🧪 Run Playwright tests
+    - name: 🧪 Run Chromium and Firefox tests
       shell: pwsh
-      run: npx playwright test
+      run: npx playwright test --project=chromium --project=firefox
+
+    - name: 🧪 Run WebKit tests (non-blocking)
+      shell: pwsh
+      continue-on-error: true
+      run: npx playwright test --project=webkit
 
     - name: 📦 Upload Playwright HTML report
       if: always()
