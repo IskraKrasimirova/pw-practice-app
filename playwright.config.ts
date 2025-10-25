@@ -29,14 +29,14 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       workers: 1,
-      timeout: 120000,
+      timeout: 60000,
     },
   ],
 
   webServer: {
     command: 'npm start',
     url: 'http://localhost:4200',
-    timeout: 180 * 1000,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
   },
 });

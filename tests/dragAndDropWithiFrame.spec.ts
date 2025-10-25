@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test('Drag and Drop with iFrame', async ({ page }) => {
-    test.slow();
-    test.setTimeout(60000);
-
     await page.goto('https://www.globalsqa.com/demo-site/draganddrop/');
 
     const consentButton = page.getByRole('button', { name: 'Consent' });
