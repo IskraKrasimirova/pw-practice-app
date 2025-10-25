@@ -16,6 +16,9 @@ jobs:
     - name: ⬇️ Checkout repository
       uses: actions/checkout@v4
 
+    - name: 🧹 Make setup.sh executable
+      run: chmod +x setup.sh
+
     - name: 🧹 Run setup script
       shell: bash
       run: ./setup.sh
