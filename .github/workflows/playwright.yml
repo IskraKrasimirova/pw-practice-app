@@ -21,7 +21,7 @@ jobs:
       run: .\setup.ps1
 
     - name: 💾 Cache Playwright browsers
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: C:\Users\runneradmin\AppData\Local\ms-playwright
         key: playwright-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
