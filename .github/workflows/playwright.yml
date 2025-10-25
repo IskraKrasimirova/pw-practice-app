@@ -10,20 +10,20 @@ on:
 jobs:
   test:
     timeout-minutes: 30
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: ⬇️ Checkout repository
       uses: actions/checkout@v4
 
     - name: 🧹 Run setup script
-      shell: pwsh
-      run: .\setup.ps1
+      shell: bash
+      run: ./setup.sh
 
     - name: 💾 Cache Playwright browsers
       uses: actions/cache@v4
       with:
-        path: C:\Users\runneradmin\AppData\Local\ms-playwright
+        path: ~/.cache/ms-playwright
         key: playwright-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         restore-keys: |
           playwright-browsers-${{ runner.os }}-
@@ -32,13 +32,13 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: 🧪 Run Chromium and Firefox tests
-      shell: pwsh
+      shell: bash
       run: npx playwright test --project=chromium --project=firefox
 
     - name: 🧪 Run WebKit tests
       timeout-minutes: 10
       if: always()
-      shell: pwsh
+      shell: bash
       run: npx playwright test --project=webkit
 
     - name: 📦 Upload Playwright HTML report
